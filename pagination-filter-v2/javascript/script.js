@@ -1,6 +1,6 @@
 
-let $studentArray = $('.student-list').children();
-console.log($studentArray.length);
+let $students = $('.student-list').children('li');
+console.log($students.length);
 
 /**************************************************************************
  * Hides all items on the page and then displays only 10 that correspond to
@@ -11,11 +11,13 @@ function showPage(number) {
   $('.student-item').hide();
   let pageNumber = number;
   let indexEnd = (pageNumber * 10);
-  let indexStart = indexEnd - 11;
-  for (i = indexStart; i < indexEnd; i += 1) {
-    $studentArray[i].show();
-  }
-
+  let indexStart = indexEnd - 10;
+  $students.each(function(i) {
+    if (i >= indexStart && i < indexEnd) {
+      console.log($(this));
+      $(this).show();
+    }
+  });
 }
 
 /**************************************************************************
@@ -24,8 +26,17 @@ function showPage(number) {
 ***************************************************************************
 */
 function addPageButton(number) {
-  let newButton = '<button class="page-button">' + number + '</button>'
+  let newButton = '<button class="page-button" id="' + number + '">' + number + '</button>'
   $('.page-links').append(newButton);
+}
+
+function addButtonListeners() {
+  let $buttons = $('.page-links').children('button');
+  $buttons.each(function(i) {
+    $(this).click(function() {
+      showPage(i + 1);
+    });
+  });
 }
 
 /**************************************************************************
@@ -34,11 +45,13 @@ function addPageButton(number) {
 ***************************************************************************
 */
 function appendPageLinks() {
-  let numberPages = Math.ceil($studentArray.length/10);
+  showPage(1);
+  let numberPages = Math.ceil($students.length/10);
   console.log(numberPages);
   for (let i = 0; i < numberPages; i += 1) {
     addPageButton(i + 1);
   }
+  addButtonListeners()
 }
 
 //
@@ -47,4 +60,3 @@ function searchList() {
 }
 
 appendPageLinks();
-showPage(1);

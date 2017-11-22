@@ -99,7 +99,7 @@ body{
   margin: 40px 0 0 0;
   text-align: center;
 }
- 
+
   .pagination li{
     display: inline;
   }
@@ -116,4 +116,10 @@ body{
     .pagination li a:hover{
       background-color: #4ba6c3;
       color: #fff;
+    }
+
+    #left-arrow, #right-arrow, .page-links {
+      margin: 40px 0 0 0;
+      text-align: center;
+      display: inline;
     }
