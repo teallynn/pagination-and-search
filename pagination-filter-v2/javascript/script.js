@@ -1,7 +1,8 @@
 
 let $students = $('.student-list').children('li');
 console.log($students.length);
-
+let currentPage = 1;
+let numberPages = 1;
 /**************************************************************************
  * Hides all items on the page and then displays only 10 that correspond to
  * the selected page number.
@@ -14,7 +15,6 @@ function showPage(number) {
   let indexStart = indexEnd - 10;
   $students.each(function(i) {
     if (i >= indexStart && i < indexEnd) {
-      console.log($(this));
       $(this).show();
     }
   });
@@ -30,11 +30,17 @@ function addPageButton(number) {
   $('.page-links').append(newButton);
 }
 
+/**************************************************************************
+ * Iterates over the existing page buttons and adds an event listener to
+ * call the showPage function on that page number.
+***************************************************************************
+*/
 function addButtonListeners() {
   let $buttons = $('.page-links').children('button');
   $buttons.each(function(i) {
     $(this).click(function() {
       showPage(i + 1);
+      currentPage = i + 1;
     });
   });
 }
@@ -46,7 +52,7 @@ function addButtonListeners() {
 */
 function appendPageLinks() {
   showPage(1);
-  let numberPages = Math.ceil($students.length/10);
+  numberPages = Math.ceil($students.length/10);
   console.log(numberPages);
   for (let i = 0; i < numberPages; i += 1) {
     addPageButton(i + 1);
@@ -58,5 +64,22 @@ function appendPageLinks() {
 function searchList() {
 
 }
+
+
+// Event Listeners for prev/next buttons to move back/forward through page
+$('#previous').click(function() {
+  currentPage -=1;
+  if (currentPage > 0) {
+    showPage(currentPage);
+  }
+});
+
+$('#next').click(function() {
+  currentPage +=1;
+  if (currentPage <= numberPages) {
+    showPage(currentPage);
+  }
+});
+
 
 appendPageLinks();

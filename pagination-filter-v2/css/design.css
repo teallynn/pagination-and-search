@@ -118,7 +118,7 @@ body{
       color: #fff;
     }
 
-    #left-arrow, #right-arrow, .page-links {
+    #next, #previous, .page-links {
       margin: 40px 0 0 0;
       text-align: center;
       display: inline;
