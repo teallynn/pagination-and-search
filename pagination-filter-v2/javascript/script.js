@@ -29,9 +29,9 @@ $('#next').click(function() {
 });
 
 // Add a search bar to the HTML document
-$('h2').after('<div id="search-div"></div>');
-$('#search-div').append('<input id="search" type="text" placeholder="Search (use lowercase)...">');
-$('#search-div').append('<button id="search-button">Search</button>');
+$('h2').after('<div class="student-search"></div>');
+$('.student-search').append('<input id="search" type="text" placeholder="Search (lowercase)...">');
+$('.student-search').append('<button id="search-button">Search</button>');
 
 /**************************************************************************
  * If no search resuts are returned a message and back button are displayed
