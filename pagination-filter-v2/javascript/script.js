@@ -1,4 +1,4 @@
-
+// Initial Variables
 let $students = $('.student-list').children('li');
 let currentPage = 1;
 let numberPages = 1;
@@ -60,7 +60,6 @@ function showNoResults() {
 */
 function searchList(input) {
   searchTerm = input;
-  console.log(searchTerm);
   $students = $('h3:contains(' +searchTerm+')').closest('li');
   $students.add($('span:contains('+searchTerm+')').closest('li'));
   if ($students.length === 0) {
