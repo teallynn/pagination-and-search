@@ -1,8 +1,75 @@
 
 let $students = $('.student-list').children('li');
-console.log($students.length);
 let currentPage = 1;
 let numberPages = 1;
+let searchTerm = '';
+
+// Add a div to contain page buttons to the HTML doc
+$('.page').append('<button id="previous">Previous</button>');
+
+// Add a previous button to the HTML doc
+$('.page').append('<div class="page-links"></div>');
+
+// Add a next buttom to the HTML doc
+$('.page').append('<button id="next">Next</button>');
+
+// Event listener for previous button to move back through pages
+$('#previous').click(function() {
+  if (currentPage > 1) {
+    currentPage -=1;
+    showPage(currentPage);
+  }
+});
+// Event listener for next button to move forward through pages
+$('#next').click(function() {
+  if (currentPage < numberPages) {
+    currentPage +=1;
+    showPage(currentPage);
+  }
+});
+
+// Add a search bar to the HTML document
+$('h2').after('<div id="search-div"></div>');
+$('#search-div').append('<input id="search" type="text" placeholder="Search (use lowercase)...">');
+$('#search-div').append('<button id="search-button">Search</button>');
+
+/**************************************************************************
+ * If no search resuts are returned a message and back button are displayed
+ * When the back button is click the message and element buttons are removed
+ * and the user is returned to the original list
+***************************************************************************
+*/
+function showNoResults() {
+  $('.student-item').hide();
+  let noResults = '<p class="no-results">No students matched your search. Click back to return to student list</p>';
+  $('.student-list').before(noResults).show();
+  let backButton = '<button class="back">Back</button>';
+  $('.student-list').before(backButton);
+  $('.back').click(function() {
+    $('.no-results').remove();
+    $('.back').remove();
+    $students = $('.student-list').children('li');
+    appendPageLinks($students);
+  });
+}
+
+/**************************************************************************
+ * Takes input from the search bar and returns all students whose name or
+ * email contains the search value.
+***************************************************************************
+*/
+function searchList(input) {
+  searchTerm = input;
+  console.log(searchTerm);
+  $students = $('h3:contains(' +searchTerm+')').closest('li');
+  $students.add($('span:contains('+searchTerm+')').closest('li'));
+  if ($students.length === 0) {
+    showNoResults();
+    };
+  appendPageLinks($students);
+  currentPage = 1;
+}
+
 /**************************************************************************
  * Hides all items on the page and then displays only 10 that correspond to
  * the selected page number.
@@ -50,36 +117,20 @@ function addButtonListeners() {
  * present and creates that many labeled buttons at the bottom of the page.
 ***************************************************************************
 */
-function appendPageLinks() {
+function appendPageLinks(studentList) {
+  $('.page-links').empty();
   showPage(1);
-  numberPages = Math.ceil($students.length/10);
-  console.log(numberPages);
+  numberPages = Math.ceil(studentList.length/10);
   for (let i = 0; i < numberPages; i += 1) {
     addPageButton(i + 1);
   }
   addButtonListeners()
 }
 
-//
-function searchList() {
 
-}
+appendPageLinks($students);
 
-
-// Event Listeners for prev/next buttons to move back/forward through page
-$('#previous').click(function() {
-  currentPage -=1;
-  if (currentPage > 0) {
-    showPage(currentPage);
-  }
+// Event listener for the search button
+$('#search-button').click(function() {
+  searchList($('#search').val());
 });
-
-$('#next').click(function() {
-  currentPage +=1;
-  if (currentPage <= numberPages) {
-    showPage(currentPage);
-  }
-});
-
-
-appendPageLinks();

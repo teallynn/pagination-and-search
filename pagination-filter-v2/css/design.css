@@ -123,3 +123,11 @@ body{
       text-align: center;
       display: inline;
     }
+
+    #search-div {
+      float: right;
+    }
+
+    #search {
+      padding: 10px auto;
+    }
