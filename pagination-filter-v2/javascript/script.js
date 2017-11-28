@@ -30,7 +30,7 @@ $('#next').click(function() {
 
 // Add a search bar to the HTML document
 $('h2').after('<div class="student-search"></div>');
-$('.student-search').append('<input id="search" type="text" placeholder="Search (lowercase)...">');
+$('.student-search').append('<input id="search" type="text" placeholder="Search students...">');
 $('.student-search').append('<button id="search-button">Search</button>');
 
 /**************************************************************************
@@ -59,7 +59,8 @@ function showNoResults() {
 ***************************************************************************
 */
 function searchList(input) {
-  searchTerm = input;
+  searchTerm = input.toLowerCase();
+  console.log(searchTerm);
   $students = $('h3:contains(' +searchTerm+')').closest('li');
   $students.add($('span:contains('+searchTerm+')').closest('li'));
   if ($students.length === 0) {
